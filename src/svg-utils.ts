@@ -99,10 +99,16 @@ function camelToKebabCase($string: string): string {
 
 function remapDefs($defs: Array<Node>, $id: string): Record<string, string> {
     let remap = {};
-    let index = 0;
+    const existingIds = new Map<string, number>();
+
     for (const node of $defs) {
        if (isElement(node)) {
-           const newId = $id + '-' + camelToKebabCase(node.name) + '-' + (index++);
+           let newId = $id + '-' + camelToKebabCase(node.name);
+           while (existingIds.has(newId)) {
+               newId = newId + existingIds.get(newId);
+           }
+           existingIds.set(newId, existingIds.has(newId) ? existingIds.get(newId) + 1 : 1);
+
            remap = {
                ...remap,
                [node.attribs.id]: newId,
@@ -122,9 +128,9 @@ function updateUrlValue($styleValue, $map) {
     return $styleValue.replace(urlRegExp, function regExp($match, $quote, $id) {
         if ($id in $map) {
             if ($quote) {
-                return `url(${$quote}${$map[$id]}${$quote})`;
+                return `url(${$quote}#${$map[$id]}${$quote})`;
             }
-            return `url(${$map[$id]})`;
+            return `url(#${$map[$id]})`;
         }
         return $match;
     });

@@ -1,11 +1,13 @@
 type ArgumentsBase = {
     target: string,
+    prefix?: string,
 }
 
 function isArgumentsBase($: any): $ is ArgumentsBase {
     return typeof $ === 'object'
         && $ !== null
-        && typeof $.target === 'string';
+        && typeof $.target === 'string'
+        && (!$.hasOwnProperty('prefix') || typeof $.prefix === 'string');
 }
 
 export type ArgumentsWithSource = ArgumentsBase & {

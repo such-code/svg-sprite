@@ -16,7 +16,7 @@ Content of *config.json*:
 ```
 
 ```shell
-svg-sprite --config config.json --output sprite.svg
+svg-sprite --config config.json --output sprite.svg --prefix "px-"
 ```
 
 ## Glob configuration

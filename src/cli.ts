@@ -63,10 +63,22 @@ sourcePromise
     })
     .then($loadedFiles => {
         console.log('Processing files...');
+
+        const existingIds = new Map<string, number>();
+
         return $loadedFiles.map($file => {
             const parsedPath = path.parse($file.path);
-            const id = filenameToId(parsedPath.name);
-            return svgToSymbol($file.dom, id);
+
+            let symbolId = argv.prefix
+                ? argv.prefix + filenameToId(parsedPath.name)
+                : filenameToId(parsedPath.name);
+
+            while (existingIds.has(symbolId)) {
+                symbolId = symbolId + existingIds.get(symbolId);
+            }
+            existingIds.set(symbolId, existingIds.has(symbolId) ? existingIds.get(symbolId) + 1 : 1);
+
+            return svgToSymbol($file.dom, symbolId);
         });
     })
     .then($symbols => {

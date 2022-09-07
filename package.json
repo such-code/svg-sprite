@@ -1,13 +1,13 @@
 {
   "name": "@such-code/svg-sprite",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Tool to merge multiple svg images into one sprite.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "tsc": "tsc",
-    "test:config": "npm run tsc && node dist/cli.js --config \"test/svg-list.json\" --target output.svg",
-    "test:glob": "npm run tsc && node dist/cli.js --source \"test/**/*.svg\" --target output.svg"
+    "test:config": "npm run tsc && node dist/cli.js --config \"test/svg-list.json\" --target output.svg --prefix c-",
+    "test:glob": "npm run tsc && node dist/cli.js --source \"test/**/*.svg\" --target output.svg --prefix g-"
   },
   "engines": {
     "node": ">= 10.18.0"
